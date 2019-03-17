@@ -1,5 +1,7 @@
 [package]
 name = "callback"
 version = "0.0.1"
-authors = ["Richard <Richard>"]
+authors = ["Richard Anaya"]
 edition = "2018"
+license = "MIT"
+description = "A library for handling callbacks in web assembly"
