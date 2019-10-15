@@ -1,7 +1,14 @@
 [package]
 name = "callback"
-version = "0.0.1"
+version = "0.0.2"
 authors = ["Richard Anaya"]
 edition = "2018"
-license = "MIT"
 description = "A library for handling callbacks in web assembly"
+license = "MIT OR Apache-2.0"
+categories = ["wasm", "no-std"]
+
+[dependencies]
+once_cell = "1.2.0"
+spin = "0.5.2"
+hashbrown = "0.6"
+wasm_common = "0.0.1"
