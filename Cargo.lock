@@ -2,10 +2,11 @@
 # It is not intended for manual editing.
 [[package]]
 name = "callback"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = [
  "once_cell 1.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "spin 0.5.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "unreachable 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "wasm_common 0.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -20,6 +21,19 @@ version = "0.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
+name = "unreachable"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "void 1.0.2 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "void"
+version = "1.0.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
 name = "wasm_common"
 version = "0.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -27,4 +41,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [metadata]
 "checksum once_cell 1.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "891f486f630e5c5a4916c7e16c4b24a53e78c860b646e9f8e005e4f16847bfed"
 "checksum spin 0.5.2 (registry+https://github.com/rust-lang/crates.io-index)" = "6e63cff320ae2c57904679ba7cb63280a3dc4613885beafb148ee7bf9aa9042d"
+"checksum unreachable 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)" = "382810877fe448991dfc7f0dd6e3ae5d58088fd0ea5e35189655f84e6814fa56"
+"checksum void 1.0.2 (registry+https://github.com/rust-lang/crates.io-index)" = "6a02e4885ed3bc0f2de90ea6dd45ebcbb66dacffe03547fadbb0eeae2770887d"
 "checksum wasm_common 0.0.1 (registry+https://github.com/rust-lang/crates.io-index)" = "339fe4bc97d1e2a89dd7c2e39079fce2fc746e35a9935ed4edaa8b8b3184bc82"

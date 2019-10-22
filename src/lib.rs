@@ -11,6 +11,7 @@ use core::{
 use once_cell::sync::OnceCell;
 use spin::Mutex;
 use wasm_common::*;
+use unreachable::*;
 
 pub enum CallbackHandler {
     Callback0(Box<dyn Fn() -> () + Send + 'static>),
@@ -96,7 +97,8 @@ pub fn get_callback(id: CallbackHandle) -> Option<Arc<Mutex<CallbackHandler>>> {
     let cbs = get_callbacks().lock();
     let index = cbs.keys.iter().position(|&r| r == id);
     if let Some(i) = index {
-        let handler_ref = cbs.handlers.get(i).unwrap().clone();
+        // no panic unwrap
+        let handler_ref = unsafe { cbs.handlers.get(i).unchecked_unwrap().clone() };
         core::mem::drop(cbs);
         Some(handler_ref)
     } else {
