@@ -8,10 +8,13 @@ use core::{
     pin::Pin,
     task::{Context, Poll, Waker},
 };
-use once_cell::sync::OnceCell;
-use spin::Mutex;
 use wasm_common::*;
 use unreachable::*;
+
+use spin::Mutex;
+
+#[macro_use]
+extern crate lazy_static;
 
 pub enum CallbackHandler {
     Callback0(Box<dyn Fn() -> () + Send + 'static>),
@@ -82,15 +85,18 @@ pub struct CallbackManager {
     pub handlers: Vec<Arc<Mutex<CallbackHandler>>>,
 }
 
-pub fn get_callbacks() -> &'static Mutex<CallbackManager> {
-    static INSTANCE: OnceCell<Mutex<CallbackManager>> = OnceCell::new();
-    INSTANCE.get_or_init(|| {
+lazy_static! {
+    static ref INSTANCE: Mutex<CallbackManager> = {
         Mutex::new(CallbackManager {
             cur_id: 0,
             keys: Vec::new(),
             handlers: Vec::new(),
         })
-    })
+    };
+}
+
+pub fn get_callbacks() -> &'static Mutex<CallbackManager> {
+    &INSTANCE
 }
 
 pub fn get_callback(id: CallbackHandle) -> Option<Arc<Mutex<CallbackHandler>>> {
