@@ -1,6 +1,6 @@
 [package]
 name = "callback"
-version = "0.0.5"
+version = "0.0.6"
 authors = ["Richard Anaya"]
 edition = "2018"
 description = "A library for handling callbacks in web assembly"
@@ -10,8 +10,7 @@ repository = "https://github.com/richardanaya/callback"
 
 [dependencies]
 spin = "0.5"
-wasm_common = "0.0.1"
-unreachable = "1.0.0"
+web_common = "0.0.1"
 
 [dependencies.lazy_static]
 version = "1.4.0"

@@ -8,9 +8,7 @@ use core::{
     pin::Pin,
     task::{Context, Poll, Waker},
 };
-use wasm_common::*;
-use unreachable::*;
-
+use web_common::*;
 use spin::Mutex;
 
 #[macro_use]
@@ -103,8 +101,7 @@ pub fn get_callback(id: CallbackHandle) -> Option<Arc<Mutex<CallbackHandler>>> {
     let cbs = get_callbacks().lock();
     let index = cbs.keys.iter().position(|&r| r == id);
     if let Some(i) = index {
-        // no panic unwrap
-        let handler_ref = unsafe { cbs.handlers.get(i).unchecked_unwrap().clone() };
+        let handler_ref = cbs.handlers.get(i).unwrap().clone();
         core::mem::drop(cbs);
         Some(handler_ref)
     } else {
