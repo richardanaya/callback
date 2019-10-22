@@ -2,16 +2,15 @@
 extern crate alloc;
 use alloc::boxed::Box;
 use alloc::sync::Arc;
+use alloc::vec::Vec;
 use core::{
     future::Future,
     pin::Pin,
     task::{Context, Poll, Waker},
 };
-use hashbrown::HashMap;
 use once_cell::sync::OnceCell;
 use spin::Mutex;
 use wasm_common::*;
-
 
 pub enum CallbackHandler {
     Callback0(Box<dyn Fn() -> () + Send + 'static>),
@@ -20,35 +19,106 @@ pub enum CallbackHandler {
     Callback3(Box<dyn Fn(JSValue, JSValue, JSValue) -> () + Send + 'static>),
     Callback4(Box<dyn Fn(JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>),
     Callback5(Box<dyn Fn(JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>),
-    Callback6(Box<dyn Fn(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>),
-    Callback7(Box<dyn Fn(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>),
-    Callback8(Box<dyn Fn(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>),
-    Callback9(Box<dyn Fn(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>),
+    Callback6(
+        Box<dyn Fn(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>,
+    ),
+    Callback7(
+        Box<
+            dyn Fn(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> ()
+                + Send
+                + 'static,
+        >,
+    ),
+    Callback8(
+        Box<
+            dyn Fn(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> ()
+                + Send
+                + 'static,
+        >,
+    ),
+    Callback9(
+        Box<
+            dyn Fn(
+                    JSValue,
+                    JSValue,
+                    JSValue,
+                    JSValue,
+                    JSValue,
+                    JSValue,
+                    JSValue,
+                    JSValue,
+                    JSValue,
+                ) -> ()
+                + Send
+                + 'static,
+        >,
+    ),
     Callback10(
-        Box<dyn Fn(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>,
+        Box<
+            dyn Fn(
+                    JSValue,
+                    JSValue,
+                    JSValue,
+                    JSValue,
+                    JSValue,
+                    JSValue,
+                    JSValue,
+                    JSValue,
+                    JSValue,
+                    JSValue,
+                ) -> ()
+                + Send
+                + 'static,
+        >,
     ),
 }
 
-pub struct Callback {
-    cur_id: i32,
-    pub handlers: HashMap<i32, Arc<Mutex<CallbackHandler>>>,
+type CallbackHandle = u32;
+
+pub struct CallbackManager {
+    cur_id: CallbackHandle,
+    pub keys: Vec<CallbackHandle>,
+    pub handlers: Vec<Arc<Mutex<CallbackHandler>>>,
 }
 
-pub fn get_callbacks() -> &'static Mutex<Callback> {
-    static INSTANCE: OnceCell<Mutex<Callback>> = OnceCell::new();
+pub fn get_callbacks() -> &'static Mutex<CallbackManager> {
+    static INSTANCE: OnceCell<Mutex<CallbackManager>> = OnceCell::new();
     INSTANCE.get_or_init(|| {
-        Mutex::new(Callback {
+        Mutex::new(CallbackManager {
             cur_id: 0,
-            handlers: HashMap::new(),
+            keys: Vec::new(),
+            handlers: Vec::new(),
         })
     })
+}
+
+pub fn get_callback(id: CallbackHandle) -> Option<Arc<Mutex<CallbackHandler>>> {
+    let cbs = get_callbacks().lock();
+    let index = cbs.keys.iter().position(|&r| r == id);
+    if let Some(i) = index {
+        let handler_ref = cbs.handlers.get(i).unwrap().clone();
+        core::mem::drop(cbs);
+        Some(handler_ref)
+    } else {
+        None
+    }
+}
+
+pub fn remove_callback(id: CallbackHandle) {
+    let mut cbs = get_callbacks().lock();
+    let index = cbs.keys.iter().position(|&r| r == id);
+    if let Some(i) = index {
+        cbs.keys.remove(i);
+        cbs.handlers.remove(i);
+    }
 }
 
 fn create_callback(cb: CallbackHandler) -> JSValue {
     let mut h = get_callbacks().lock();
     h.cur_id += 1;
     let id = h.cur_id;
-    h.handlers.insert(id, Arc::new(Mutex::new(cb)));
+    h.keys.push(id);
+    h.handlers.push(Arc::new(Mutex::new(cb)));
     return id as JSValue;
 }
 
