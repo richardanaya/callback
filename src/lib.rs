@@ -15,32 +15,32 @@ use web_common::*;
 extern crate lazy_static;
 
 pub enum CallbackHandler {
-    Callback0(Box<dyn Fn() -> () + Send + 'static>),
-    Callback1(Box<dyn Fn(JSValue) -> () + Send + 'static>),
-    Callback2(Box<dyn Fn(JSValue, JSValue) -> () + Send + 'static>),
-    Callback3(Box<dyn Fn(JSValue, JSValue, JSValue) -> () + Send + 'static>),
-    Callback4(Box<dyn Fn(JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>),
-    Callback5(Box<dyn Fn(JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>),
+    Callback0(Box<dyn FnMut() -> () + Send + 'static>),
+    Callback1(Box<dyn FnMut(JSValue) -> () + Send + 'static>),
+    Callback2(Box<dyn FnMut(JSValue, JSValue) -> () + Send + 'static>),
+    Callback3(Box<dyn FnMut(JSValue, JSValue, JSValue) -> () + Send + 'static>),
+    Callback4(Box<dyn FnMut(JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>),
+    Callback5(Box<dyn FnMut(JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>),
     Callback6(
-        Box<dyn Fn(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>,
+        Box<dyn FnMut(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>,
     ),
     Callback7(
         Box<
-            dyn Fn(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> ()
+            dyn FnMut(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> ()
                 + Send
                 + 'static,
         >,
     ),
     Callback8(
         Box<
-            dyn Fn(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> ()
+            dyn FnMut(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> ()
                 + Send
                 + 'static,
         >,
     ),
     Callback9(
         Box<
-            dyn Fn(
+            dyn FnMut(
                     JSValue,
                     JSValue,
                     JSValue,
@@ -57,7 +57,7 @@ pub enum CallbackHandler {
     ),
     Callback10(
         Box<
-            dyn Fn(
+            dyn FnMut(
                     JSValue,
                     JSValue,
                     JSValue,
@@ -127,45 +127,45 @@ fn create_callback(cb: CallbackHandler) -> JSValue {
     return id as JSValue;
 }
 
-pub fn create_callback_0(cb: Box<dyn Fn() -> () + Send + 'static>) -> JSValue {
+pub fn create_callback_0(cb: Box<dyn FnMut() -> () + Send + 'static>) -> JSValue {
     create_callback(CallbackHandler::Callback0(cb))
 }
 
-pub fn create_callback_1(cb: Box<dyn Fn(JSValue) -> () + Send + 'static>) -> JSValue {
+pub fn create_callback_1(cb: Box<dyn FnMut(JSValue) -> () + Send + 'static>) -> JSValue {
     create_callback(CallbackHandler::Callback1(cb))
 }
 
-pub fn create_callback_2(cb: Box<dyn Fn(JSValue, JSValue) -> () + Send + 'static>) -> JSValue {
+pub fn create_callback_2(cb: Box<dyn FnMut(JSValue, JSValue) -> () + Send + 'static>) -> JSValue {
     create_callback(CallbackHandler::Callback2(cb))
 }
 
 pub fn create_callback_3(
-    cb: Box<dyn Fn(JSValue, JSValue, JSValue) -> () + Send + 'static>,
+    cb: Box<dyn FnMut(JSValue, JSValue, JSValue) -> () + Send + 'static>,
 ) -> JSValue {
     create_callback(CallbackHandler::Callback3(cb))
 }
 
 pub fn create_callback_4(
-    cb: Box<dyn Fn(JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>,
+    cb: Box<dyn FnMut(JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>,
 ) -> JSValue {
     create_callback(CallbackHandler::Callback4(cb))
 }
 
 pub fn create_callback_5(
-    cb: Box<dyn Fn(JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>,
+    cb: Box<dyn FnMut(JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>,
 ) -> JSValue {
     create_callback(CallbackHandler::Callback5(cb))
 }
 
 pub fn create_callback_6(
-    cb: Box<dyn Fn(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>,
+    cb: Box<dyn FnMut(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>,
 ) -> JSValue {
     create_callback(CallbackHandler::Callback6(cb))
 }
 
 pub fn create_callback_7(
     cb: Box<
-        dyn Fn(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> ()
+        dyn FnMut(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> ()
             + Send
             + 'static,
     >,
@@ -175,7 +175,7 @@ pub fn create_callback_7(
 
 pub fn create_callback_8(
     cb: Box<
-        dyn Fn(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> ()
+        dyn FnMut(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> ()
             + Send
             + 'static,
     >,
@@ -185,7 +185,7 @@ pub fn create_callback_8(
 
 pub fn create_callback_9(
     cb: Box<
-        dyn Fn(
+        dyn FnMut(
                 JSValue,
                 JSValue,
                 JSValue,
@@ -205,7 +205,7 @@ pub fn create_callback_9(
 
 pub fn create_callback_10(
     cb: Box<
-        dyn Fn(
+        dyn FnMut(
                 JSValue,
                 JSValue,
                 JSValue,
