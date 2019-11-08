@@ -8,8 +8,8 @@ use core::{
     pin::Pin,
     task::{Context, Poll, Waker},
 };
-use web_common::*;
 use spin::Mutex;
+use web_common::*;
 
 #[macro_use]
 extern crate lazy_static;
@@ -127,43 +127,43 @@ fn create_callback(cb: CallbackHandler) -> JSValue {
     return id as JSValue;
 }
 
-pub fn create_callback0(cb: Box<dyn Fn() -> () + Send + 'static>) -> JSValue {
+pub fn create_callback_0(cb: Box<dyn Fn() -> () + Send + 'static>) -> JSValue {
     create_callback(CallbackHandler::Callback0(cb))
 }
 
-pub fn create_callback1(cb: Box<dyn Fn(JSValue) -> () + Send + 'static>) -> JSValue {
+pub fn create_callback_1(cb: Box<dyn Fn(JSValue) -> () + Send + 'static>) -> JSValue {
     create_callback(CallbackHandler::Callback1(cb))
 }
 
-pub fn create_callback2(cb: Box<dyn Fn(JSValue, JSValue) -> () + Send + 'static>) -> JSValue {
+pub fn create_callback_2(cb: Box<dyn Fn(JSValue, JSValue) -> () + Send + 'static>) -> JSValue {
     create_callback(CallbackHandler::Callback2(cb))
 }
 
-pub fn create_callback3(
+pub fn create_callback_3(
     cb: Box<dyn Fn(JSValue, JSValue, JSValue) -> () + Send + 'static>,
 ) -> JSValue {
     create_callback(CallbackHandler::Callback3(cb))
 }
 
-pub fn create_callback4(
+pub fn create_callback_4(
     cb: Box<dyn Fn(JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>,
 ) -> JSValue {
     create_callback(CallbackHandler::Callback4(cb))
 }
 
-pub fn create_callback5(
+pub fn create_callback_5(
     cb: Box<dyn Fn(JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>,
 ) -> JSValue {
     create_callback(CallbackHandler::Callback5(cb))
 }
 
-pub fn create_callback6(
+pub fn create_callback_6(
     cb: Box<dyn Fn(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>,
 ) -> JSValue {
     create_callback(CallbackHandler::Callback6(cb))
 }
 
-pub fn create_callback7(
+pub fn create_callback_7(
     cb: Box<
         dyn Fn(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> ()
             + Send
@@ -173,7 +173,7 @@ pub fn create_callback7(
     create_callback(CallbackHandler::Callback7(cb))
 }
 
-pub fn create_callback8(
+pub fn create_callback_8(
     cb: Box<
         dyn Fn(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> ()
             + Send
@@ -183,7 +183,7 @@ pub fn create_callback8(
     create_callback(CallbackHandler::Callback8(cb))
 }
 
-pub fn create_callback9(
+pub fn create_callback_9(
     cb: Box<
         dyn Fn(
                 JSValue,
@@ -203,7 +203,7 @@ pub fn create_callback9(
     create_callback(CallbackHandler::Callback9(cb))
 }
 
-pub fn create_callback10(
+pub fn create_callback_10(
     cb: Box<
         dyn Fn(
                 JSValue,
