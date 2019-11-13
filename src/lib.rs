@@ -127,101 +127,81 @@ fn create_callback(cb: CallbackHandler) -> JSValue {
     return id as JSValue;
 }
 
-pub fn create_callback_0(cb: Box<dyn FnMut() -> () + Send + 'static>) -> JSValue {
-    create_callback(CallbackHandler::Callback0(cb))
+pub fn create_callback_0(cb: impl FnMut() -> () + Send + 'static) -> JSValue {
+    create_callback(CallbackHandler::Callback0(Box::new(cb)))
 }
 
-pub fn create_callback_1(cb: Box<dyn FnMut(JSValue) -> () + Send + 'static>) -> JSValue {
-    create_callback(CallbackHandler::Callback1(cb))
+pub fn create_callback_1(cb: impl FnMut(JSValue) -> () + Send + 'static) -> JSValue {
+    create_callback(CallbackHandler::Callback1(Box::new(cb)))
 }
 
-pub fn create_callback_2(cb: Box<dyn FnMut(JSValue, JSValue) -> () + Send + 'static>) -> JSValue {
-    create_callback(CallbackHandler::Callback2(cb))
+pub fn create_callback_2(cb: impl FnMut(JSValue, JSValue) -> () + Send + 'static) -> JSValue {
+    create_callback(CallbackHandler::Callback2(Box::new(cb)))
 }
 
 pub fn create_callback_3(
-    cb: Box<dyn FnMut(JSValue, JSValue, JSValue) -> () + Send + 'static>,
+    cb: impl FnMut(JSValue, JSValue, JSValue) -> () + Send + 'static,
 ) -> JSValue {
-    create_callback(CallbackHandler::Callback3(cb))
+    create_callback(CallbackHandler::Callback3(Box::new(cb)))
 }
 
 pub fn create_callback_4(
-    cb: Box<dyn FnMut(JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>,
+    cb: impl FnMut(JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static,
 ) -> JSValue {
-    create_callback(CallbackHandler::Callback4(cb))
+    create_callback(CallbackHandler::Callback4(Box::new(cb)))
 }
 
 pub fn create_callback_5(
-    cb: Box<dyn FnMut(JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>,
+    cb: impl FnMut(JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static,
 ) -> JSValue {
-    create_callback(CallbackHandler::Callback5(cb))
+    create_callback(CallbackHandler::Callback5(Box::new(cb)))
 }
 
 pub fn create_callback_6(
-    cb: Box<dyn FnMut(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>,
+    cb: impl FnMut(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static,
 ) -> JSValue {
-    create_callback(CallbackHandler::Callback6(cb))
+    create_callback(CallbackHandler::Callback6(Box::new(cb)))
 }
 
 pub fn create_callback_7(
-    cb: Box<
-        dyn FnMut(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> ()
-            + Send
-            + 'static,
-    >,
+    cb: impl FnMut(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static,
 ) -> JSValue {
-    create_callback(CallbackHandler::Callback7(cb))
+    create_callback(CallbackHandler::Callback7(Box::new(cb)))
 }
 
 pub fn create_callback_8(
-    cb: Box<
-        dyn FnMut(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> ()
-            + Send
-            + 'static,
-    >,
+    cb: impl FnMut(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> ()
+        + Send
+        + 'static,
 ) -> JSValue {
-    create_callback(CallbackHandler::Callback8(cb))
+    create_callback(CallbackHandler::Callback8(Box::new(cb)))
 }
 
 pub fn create_callback_9(
-    cb: Box<
-        dyn FnMut(
-                JSValue,
-                JSValue,
-                JSValue,
-                JSValue,
-                JSValue,
-                JSValue,
-                JSValue,
-                JSValue,
-                JSValue,
-            ) -> ()
-            + Send
-            + 'static,
-    >,
+    cb: impl FnMut(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> ()
+        + Send
+        + 'static,
 ) -> JSValue {
-    create_callback(CallbackHandler::Callback9(cb))
+    create_callback(CallbackHandler::Callback9(Box::new(cb)))
 }
 
 pub fn create_callback_10(
-    cb: Box<
-        dyn FnMut(
-                JSValue,
-                JSValue,
-                JSValue,
-                JSValue,
-                JSValue,
-                JSValue,
-                JSValue,
-                JSValue,
-                JSValue,
-                JSValue,
-            ) -> ()
-            + Send
-            + 'static,
-    >,
+    cb: impl FnMut(
+            JSValue,
+            JSValue,
+            JSValue,
+            JSValue,
+            JSValue,
+            JSValue,
+            JSValue,
+            JSValue,
+            JSValue,
+            JSValue,
+        ) -> ()
+        + Send
+        + 'static,
 ) -> JSValue {
-    create_callback(CallbackHandler::Callback10(cb))
+    create_callback(CallbackHandler::Callback10(Box::new(cb)))
 }
 
 pub struct CallbackFuture {
