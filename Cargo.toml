@@ -7,10 +7,11 @@ description = "A library for handling callbacks in web assembly"
 license = "MIT OR Apache-2.0"
 categories = ["wasm", "no-std"]
 repository = "https://github.com/richardanaya/callback"
+readme = "README.md"
 
 [dependencies]
 spin = "0.5"
-web_common = "0.0.1"
+web_common = "0.0"
 
 [dependencies.lazy_static]
 version = "1.4.0"
