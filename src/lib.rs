@@ -9,69 +9,23 @@ use core::{
     task::{Context, Poll, Waker},
 };
 use spin::Mutex;
-use web_common::*;
 
 #[macro_use]
 extern crate lazy_static;
 
 pub enum CallbackHandler {
     Callback0(Box<dyn FnMut() -> () + Send + 'static>),
-    Callback1(Box<dyn FnMut(JSValue) -> () + Send + 'static>),
-    Callback2(Box<dyn FnMut(JSValue, JSValue) -> () + Send + 'static>),
-    Callback3(Box<dyn FnMut(JSValue, JSValue, JSValue) -> () + Send + 'static>),
-    Callback4(Box<dyn FnMut(JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>),
-    Callback5(Box<dyn FnMut(JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>),
-    Callback6(
-        Box<dyn FnMut(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static>,
-    ),
-    Callback7(
-        Box<
-            dyn FnMut(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> ()
-                + Send
-                + 'static,
-        >,
-    ),
-    Callback8(
-        Box<
-            dyn FnMut(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> ()
-                + Send
-                + 'static,
-        >,
-    ),
-    Callback9(
-        Box<
-            dyn FnMut(
-                    JSValue,
-                    JSValue,
-                    JSValue,
-                    JSValue,
-                    JSValue,
-                    JSValue,
-                    JSValue,
-                    JSValue,
-                    JSValue,
-                ) -> ()
-                + Send
-                + 'static,
-        >,
-    ),
+    Callback1(Box<dyn FnMut(f64) -> () + Send + 'static>),
+    Callback2(Box<dyn FnMut(f64, f64) -> () + Send + 'static>),
+    Callback3(Box<dyn FnMut(f64, f64, f64) -> () + Send + 'static>),
+    Callback4(Box<dyn FnMut(f64, f64, f64, f64) -> () + Send + 'static>),
+    Callback5(Box<dyn FnMut(f64, f64, f64, f64, f64) -> () + Send + 'static>),
+    Callback6(Box<dyn FnMut(f64, f64, f64, f64, f64, f64) -> () + Send + 'static>),
+    Callback7(Box<dyn FnMut(f64, f64, f64, f64, f64, f64, f64) -> () + Send + 'static>),
+    Callback8(Box<dyn FnMut(f64, f64, f64, f64, f64, f64, f64, f64) -> () + Send + 'static>),
+    Callback9(Box<dyn FnMut(f64, f64, f64, f64, f64, f64, f64, f64, f64) -> () + Send + 'static>),
     Callback10(
-        Box<
-            dyn FnMut(
-                    JSValue,
-                    JSValue,
-                    JSValue,
-                    JSValue,
-                    JSValue,
-                    JSValue,
-                    JSValue,
-                    JSValue,
-                    JSValue,
-                    JSValue,
-                ) -> ()
-                + Send
-                + 'static,
-        >,
+        Box<dyn FnMut(f64, f64, f64, f64, f64, f64, f64, f64, f64, f64) -> () + Send + 'static>,
     ),
 }
 
@@ -118,89 +72,66 @@ pub fn remove_callback(id: CallbackHandle) {
     }
 }
 
-fn create_callback(cb: CallbackHandler) -> JSValue {
+fn create_callback(cb: CallbackHandler) -> f64 {
     let mut h = get_callbacks().lock();
     h.cur_id += 1;
     let id = h.cur_id;
     h.keys.push(id);
     h.handlers.push(Arc::new(Mutex::new(cb)));
-    return id as JSValue;
+    return id as f64;
 }
 
-pub fn create_callback_0(cb: impl FnMut() -> () + Send + 'static) -> JSValue {
+pub fn create_callback_0(cb: impl FnMut() -> () + Send + 'static) -> f64 {
     create_callback(CallbackHandler::Callback0(Box::new(cb)))
 }
 
-pub fn create_callback_1(cb: impl FnMut(JSValue) -> () + Send + 'static) -> JSValue {
+pub fn create_callback_1(cb: impl FnMut(f64) -> () + Send + 'static) -> f64 {
     create_callback(CallbackHandler::Callback1(Box::new(cb)))
 }
 
-pub fn create_callback_2(cb: impl FnMut(JSValue, JSValue) -> () + Send + 'static) -> JSValue {
+pub fn create_callback_2(cb: impl FnMut(f64, f64) -> () + Send + 'static) -> f64 {
     create_callback(CallbackHandler::Callback2(Box::new(cb)))
 }
 
-pub fn create_callback_3(
-    cb: impl FnMut(JSValue, JSValue, JSValue) -> () + Send + 'static,
-) -> JSValue {
+pub fn create_callback_3(cb: impl FnMut(f64, f64, f64) -> () + Send + 'static) -> f64 {
     create_callback(CallbackHandler::Callback3(Box::new(cb)))
 }
 
-pub fn create_callback_4(
-    cb: impl FnMut(JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static,
-) -> JSValue {
+pub fn create_callback_4(cb: impl FnMut(f64, f64, f64, f64) -> () + Send + 'static) -> f64 {
     create_callback(CallbackHandler::Callback4(Box::new(cb)))
 }
 
-pub fn create_callback_5(
-    cb: impl FnMut(JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static,
-) -> JSValue {
+pub fn create_callback_5(cb: impl FnMut(f64, f64, f64, f64, f64) -> () + Send + 'static) -> f64 {
     create_callback(CallbackHandler::Callback5(Box::new(cb)))
 }
 
 pub fn create_callback_6(
-    cb: impl FnMut(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static,
-) -> JSValue {
+    cb: impl FnMut(f64, f64, f64, f64, f64, f64) -> () + Send + 'static,
+) -> f64 {
     create_callback(CallbackHandler::Callback6(Box::new(cb)))
 }
 
 pub fn create_callback_7(
-    cb: impl FnMut(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> () + Send + 'static,
-) -> JSValue {
+    cb: impl FnMut(f64, f64, f64, f64, f64, f64, f64) -> () + Send + 'static,
+) -> f64 {
     create_callback(CallbackHandler::Callback7(Box::new(cb)))
 }
 
 pub fn create_callback_8(
-    cb: impl FnMut(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> ()
-        + Send
-        + 'static,
-) -> JSValue {
+    cb: impl FnMut(f64, f64, f64, f64, f64, f64, f64, f64) -> () + Send + 'static,
+) -> f64 {
     create_callback(CallbackHandler::Callback8(Box::new(cb)))
 }
 
 pub fn create_callback_9(
-    cb: impl FnMut(JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue, JSValue) -> ()
-        + Send
-        + 'static,
-) -> JSValue {
+    cb: impl FnMut(f64, f64, f64, f64, f64, f64, f64, f64, f64) -> () + Send + 'static,
+) -> f64 {
     create_callback(CallbackHandler::Callback9(Box::new(cb)))
 }
 
 pub fn create_callback_10(
-    cb: impl FnMut(
-            JSValue,
-            JSValue,
-            JSValue,
-            JSValue,
-            JSValue,
-            JSValue,
-            JSValue,
-            JSValue,
-            JSValue,
-            JSValue,
-        ) -> ()
-        + Send
-        + 'static,
-) -> JSValue {
+    cb: impl FnMut(f64, f64, f64, f64, f64, f64, f64, f64, f64, f64) -> () + Send + 'static,
+) -> f64 {
     create_callback(CallbackHandler::Callback10(Box::new(cb)))
 }
 
@@ -212,11 +143,11 @@ pub struct CallbackFuture {
 struct SharedState {
     completed: bool,
     waker: Option<Waker>,
-    result: JSValue,
+    result: Option<f64>,
 }
 
 impl Future for CallbackFuture {
-    type Output = JSValue;
+    type Output = Option<f64>;
     fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
         let mut shared_state = self.shared_state.lock();
         if shared_state.completed {
@@ -229,23 +160,23 @@ impl Future for CallbackFuture {
 }
 
 impl CallbackFuture {
-    pub fn new() -> (Self, JSValue) {
+    pub fn new() -> (Self, f64) {
         let shared_state = Arc::new(Mutex::new(SharedState {
             completed: false,
             waker: None,
-            result: UNDEFINED,
+            result: None,
         }));
 
         let thread_shared_state = shared_state.clone();
-        let id = create_callback(CallbackHandler::Callback1(Box::new(move |v: JSValue| {
+        let id = create_callback(CallbackHandler::Callback1(Box::new(move |v: f64| {
             let mut shared_state = thread_shared_state.lock();
             shared_state.completed = true;
-            shared_state.result = v;
+            shared_state.result = Some(v);
             if let Some(waker) = shared_state.waker.take() {
                 core::mem::drop(shared_state);
                 waker.wake()
             }
         })));
-        (CallbackFuture { shared_state }, id as JSValue)
+        (CallbackFuture { shared_state }, id as f64)
     }
 }

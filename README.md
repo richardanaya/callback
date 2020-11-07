@@ -1,6 +1,6 @@
 # callback
 
-A library for handling callbacks in web assembly. This is project is notably used in [`js_ffi`](https://www.github.com/richardanaya/js_ffi)
+A library for handling callbacks in WebAssembly.
 
 # License
 
